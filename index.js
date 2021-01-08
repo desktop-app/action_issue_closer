@@ -14,7 +14,7 @@ You can report your issue to [the group](https://t.me/macswift) \
 or to [the repository of Telegram for macOS]\
 (https://github.com/overtake/TelegramSwift).
 
-**If I made a mistake and closed your issue wrongly, please reopen it.\
+**If I made a mistake and closed your issue wrongly, please reopen it. \
 Thanks!**
 `;
 
