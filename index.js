@@ -28,7 +28,7 @@ const processIssue = async (macosVersion) => {
 		repo: github.context.issue.repo,
 	};
 
-	let tags = await octokit.repos.listTags(repository);
+	let tags = await octokit.rest.repos.listTags(repository);
 
 	let errorStr = "Version not found.";
 
@@ -100,17 +100,17 @@ const processIssue = async (macosVersion) => {
 		issue_number: github.context.issue.number
 	};
 
-	octokit.issues.createComment({
+	octokit.rest.issues.createComment({
 		...params,
 		body: messageToClose
 	});
 
-	octokit.issues.addLabels({
+	octokit.rest.issues.addLabels({
 		...params,
 		labels: ['TG macOS Swift']
 	});
 
-	octokit.issues.update({
+	octokit.rest.issues.update({
 		...params,
 		state: 'closed'
 	});
