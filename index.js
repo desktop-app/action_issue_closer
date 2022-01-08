@@ -1,7 +1,7 @@
 const core = require("@actions/core");
 const github = require("@actions/github");
 const fs = require("fs");
-const parser = require('fast-xml-parser');
+const { XMLParser } = require('fast-xml-parser');
 
 const token = process.argv[2];
 const octokit = github.getOctokit(token);
@@ -127,8 +127,8 @@ const parseXml = () => {
 		let options = { ignoreAttributes : false };
 		let versionAttribute = "@_sparkle:shortVersionString";
 
-		let tObj = parser.getTraversalObj(xml, options);
-		let jsonObj = parser.convertToJson(tObj, options);
+		const parser = new XMLParser(options);
+		let jsonObj = parser.parse(xml);
 		let version = jsonObj.rss.channel.item[0].enclosure[versionAttribute];
 		processIssue(version);
 	});
