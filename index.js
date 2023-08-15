@@ -59,7 +59,7 @@ const processIssue = async (macosVersion) => {
 		return;
 	}
 
-	let parseVersion = str => str.match(/[0-9]\.[0-9][0-9.]{0,}/g);
+	let parseVersion = str => str.match(/[0-9]{1,2}\.[0-9][0-9.]{0,}/g);
 	let firstNum = version => version[0].split(".")[0];
 
 	let issueVer = parseVersion(
