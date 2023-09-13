@@ -86,12 +86,12 @@ const processIssue = async (macosVersion) => {
 
 	console.log(`Telegram for MacOS version from website: ${macosVersion}.`);
 
-	if (compareVersions(issueNum, latestNum, '<=')
-		&& compareVersions(issueNum, macosVersion, '<')) {
+	if (compareVersions.compare(issueNum, latestNum, '<=')
+		&& compareVersions.compare(issueNum, macosVersion, '<')) {
 		console.log("Seems the version from this issue is fine!");
 		return;
 	}
-	if (compareVersions(issueNum, macosVersion, '>')) {
+	if (compareVersions.compare(issueNum, macosVersion, '>')) {
 		console.log(messageCantDecide);
 		return;
 	}
