@@ -2,6 +2,7 @@ const core = require("@actions/core");
 const github = require("@actions/github");
 const fs = require("fs");
 const { XMLParser } = require('fast-xml-parser');
+const compareVersions = require('compare-versions');
 
 const token = process.argv[2];
 const octokit = github.getOctokit(token);
@@ -60,7 +61,6 @@ const processIssue = async (macosVersion) => {
 	}
 
 	let parseVersion = str => str.match(/[0-9]{1,2}\.[0-9][0-9.]{0,}/g);
-	let firstNum = version => version[0].split(".")[0];
 
 	let issueVer = parseVersion(
 		body.substring(
@@ -81,16 +81,17 @@ const processIssue = async (macosVersion) => {
 	}
 	console.log("Version from tags: " + latestVer[0]);
 
-	let issueNum = firstNum(issueVer);
-	let latestNum = firstNum(latestVer);
+	let issueNum = issueVer[0];
+	let latestNum = latestVer[0];
 
 	console.log(`Telegram for MacOS version from website: ${macosVersion}.`);
 
-	if (issueNum <= latestNum && issueNum < macosVersion) {
+	if (compareVersions(issueNum, latestNum, '<=')
+		&& compareVersions(issueNum, macosVersion, '<')) {
 		console.log("Seems the version from this issue is fine!");
 		return;
 	}
-	if (issueNum > macosVersion) {
+	if (compareVersions(issueNum, macosVersion, '>')) {
 		console.log(messageCantDecide);
 		return;
 	}
