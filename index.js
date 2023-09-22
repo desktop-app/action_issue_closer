@@ -91,7 +91,8 @@ const processIssue = async (macosVersion) => {
 		console.log("Seems the version from this issue is fine!");
 		return;
 	}
-	if (compareVersions.compare(issueNum, macosVersion, '>')) {
+	if (compareVersions.compare(issueNum, macosVersion, '>')
+		&& !issueNum.startsWith(macosVersion)) {
 		console.log(messageCantDecide);
 		return;
 	}
