@@ -96,6 +96,11 @@ const processIssue = async (macosVersion) => {
 		console.log(messageCantDecide);
 		return;
 	}
+	if ((issueNum.charAt(0) == latestNum.charAt(0))
+		&& compareVersions.compare(issueNum, latestNum, '>')) {
+		console.log("Seems the dev forgot to create a new tag.");
+		return;
+	}
 
 	let params = {
 		...repository,
