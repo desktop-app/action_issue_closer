@@ -1,8 +1,8 @@
-const core = require("@actions/core");
-const github = require("@actions/github");
-const fs = require("fs");
-const { XMLParser } = require('fast-xml-parser');
-const compareVersions = require('compare-versions');
+import * as core from "@actions/core";
+import * as github from "@actions/github";
+import fs from "fs";
+import { XMLParser } from 'fast-xml-parser';
+import { compare } from 'compare-versions';
 
 const token = process.argv[2];
 const octokit = github.getOctokit(token);
@@ -86,18 +86,18 @@ const processIssue = async (macosVersion) => {
 
 	console.log(`Telegram for MacOS version from website: ${macosVersion}.`);
 
-	if (compareVersions.compare(issueNum, latestNum, '<=')
-		&& compareVersions.compare(issueNum, macosVersion, '<')) {
+	if (compare(issueNum, latestNum, '<=')
+		&& compare(issueNum, macosVersion, '<')) {
 		console.log("Seems the version from this issue is fine!");
 		return;
 	}
-	if (compareVersions.compare(issueNum, macosVersion, '>')
+	if (compare(issueNum, macosVersion, '>')
 		&& !issueNum.startsWith(macosVersion)) {
 		console.log(messageCantDecide);
 		return;
 	}
 	if ((issueNum.charAt(0) == latestNum.charAt(0))
-		&& compareVersions.compare(issueNum, latestNum, '>')) {
+		&& compare(issueNum, latestNum, '>')) {
 		console.log("Seems the dev forgot to create a new tag.");
 		return;
 	}
