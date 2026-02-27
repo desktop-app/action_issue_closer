@@ -33,24 +33,13 @@ const processIssue = async (macosVersion) => {
 
 	let errorStr = "Version not found.";
 
-	let maxIndexOf = (str, i) => {
-		let index = str.indexOf(i);
-		return (index == -1) ? Number.MAX_SAFE_INTEGER : index;
-	};
-
-	let item1 = "Version of Telegram Desktop";
-	let item2 = "Installation source";
-	let item3 = "Used theme";
-	let item4 = "<details>";
+	let versionHeader = "Version of Telegram Desktop";
+	let nextSectionHeader = "Installation source";
 	let body = github.context.payload.issue.body;
 
 	console.log("Body of issue:\n" + body);
-	let index1 = body.indexOf(item1);
-	let index2 = Math.min(
-		Math.min(
-			maxIndexOf(body, item2),
-			maxIndexOf(body, item3)),
-		maxIndexOf(body, item4));
+	let index1 = body.indexOf(versionHeader);
+	let index2 = body.indexOf(nextSectionHeader);
 
 	console.log("Index 1: " + index1);
 	console.log("Index 2: " + index2);
@@ -59,12 +48,16 @@ const processIssue = async (macosVersion) => {
 		console.log(errorStr);
 		return;
 	}
+	if (index2 == -1) {
+		console.log(errorStr);
+		return;
+	}
 
 	let parseVersion = str => str.match(/[0-9]{1,2}\.[0-9][0-9.]{0,}/g);
 
 	let issueVer = parseVersion(
 		body.substring(
-			index1 + item1.length,
+			index1 + versionHeader.length,
 			index2));
 
 	if (issueVer == undefined) {
